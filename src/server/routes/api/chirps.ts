@@ -6,9 +6,9 @@ const router = express.Router();
 // get one chirp by id
 // GET http://localhost:3000/api/chirps/123
 router.get('/:id', async (req, res) => {
-    const id = req.params.id;
+    const chirpid = req.params.id;
     try {
-        const [chirp] = await db.chirps.one(id);
+        const [chirp] = await db.chirps.one(chirpid);
         res.json(chirp);
     } catch (error) {
         console.log(error);

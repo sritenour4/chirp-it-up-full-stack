@@ -1,7 +1,7 @@
 import * as mysql from 'mysql';
 import chirps from './chirps';
 import users from './users';
-import mentions from './mentions';
+// import mentions from './mentions';
 
 export const Connection = mysql.createConnection({
     host: 'localhost',
@@ -22,6 +22,6 @@ export const Query = <T = any>(query: string, values?: Array<string | number>) =
 
 export default {
     chirps,
-    users, 
-    mentions
+    users 
+    // mentions
 }
