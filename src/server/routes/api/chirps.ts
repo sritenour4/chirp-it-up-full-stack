@@ -5,30 +5,14 @@ const router = express.Router();
 
 // get one chirp by id
 // GET http://localhost:3000/api/chirps/123
-router.get('/:id?', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const id = req.params.id;
     try {
-        const [user] = await db.users.one(id);
-        res.json(user);
+        const [chirp] = await db.chirps.one(id);
+        res.json(chirp);
     } catch (error) {
         console.log(error);
         res.status(500).json({ msg: 'Something went wrong', error: error.message })
-    }
-});
-
-// get one user by name
-router.get("/one/:name", async (req, res) => {
-    const name = req.params.name;    
-    try {
-        const [user] = await db.users.findUserByName(name);
-        if (user) {
-            res.json(user);
-        } else {
-            res.sendStatus(404);
-        }
-    } catch (error) {
-        console.log(error);
-        res.send(error);        
     }
 });
 
@@ -36,7 +20,7 @@ router.get("/one/:name", async (req, res) => {
 // GET http://localhost:3000/api/chirps/
 router.get('/', async (req, res) => {
     try {
-        const chirps = await db.users.all();
+        const chirps = await db.chirps.all();
         res.json(chirps);
     } catch(error) {
         console.log(error);
@@ -48,12 +32,9 @@ router.get('/', async (req, res) => {
 // POST http://localhost:3000/api/chirps/
 // { name: string, message: string}
 router.post('/add', async (req, res) => {
-    const userid = req.body.userid;
-    const content = req.body.content;
-    const location = req.body.location;
-
+    const newChirp = req.body;
     try {
-        const newChirpRes = await db.chirps.post(userid, content, location);
+        const newChirpRes = await db.chirps.post(newChirp.userid, newChirp.content, newChirp.location)
         res.json({ msg: 'added new chirp',  newChirpRes});
     } catch (error) {
         console.log(error);
@@ -61,23 +42,13 @@ router.post('/add', async (req, res) => {
     }
 });
 
-// router.post('/add', async (req, res) => {
-//     const newChirp = req.body;
-//     try {
-//         const newChirpRes = await db.chirps.post(newChirp.userid, newChirp.content, newChirp.location)
-//         res.json({ msg: 'added new chirp',  newChirpRes});
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ msg: 'Something went wrong', error: error.message });
-//     }
-// });
 
 // edit a chirp
 // PUT http://localhost:3000/api/chirps/123
 // { name: string, message: string}
 router.put('/:id', async (req, res) => {
     const chirpid = req.params.id;
-    const editedChirp = req.body.content;
+    const editedChirp = req.body.content;    
     try {
         await db.chirps.put(chirpid, editedChirp);
         res.json({ msg: 'single chirp by id ' + chirpid });
@@ -99,5 +70,6 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ msg: 'Something went wrong', error: error.message });
     }
 });
+
 
 export default router;
