@@ -21,7 +21,7 @@
     "@types/react-router-dom": "^5.1.7",
     "bootstrap": "^4.6.0",
     "css-loader": "^5.1.1",
-    "express": "^4.17.1",
+    "express": "^4.22.1",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "node-sass": "^5.0.0",
